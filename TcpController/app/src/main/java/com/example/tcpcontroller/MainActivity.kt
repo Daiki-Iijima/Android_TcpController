@@ -2,6 +2,7 @@ package com.example.tcpcontroller
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.BufferedReader
@@ -33,6 +34,28 @@ class MainActivity : AppCompatActivity() {
             thread.start()
         }
 
+        seekBar.setOnSeekBarChangeListener(
+            object : SeekBar.OnSeekBarChangeListener {
+                //ツマミがドラッグされると呼ばれる
+                override fun onProgressChanged(
+                    seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                    val nowValue:Float = progress / 100f
+
+                    //  値の送信
+                    val runnable = Runnable { SendData(nowValue.toString()) }
+                    val thread = Thread(runnable)
+                    thread.start()
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar) {
+                    // ツマミがタッチされた時に呼ばれる
+                }
+
+                override fun onStopTrackingTouch(seekBar: SeekBar) {
+                    // ツマミがリリースされた時に呼ばれる
+                }
+
+            })
 
     }
 
