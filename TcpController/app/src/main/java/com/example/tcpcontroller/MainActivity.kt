@@ -98,10 +98,8 @@ class MainActivity : AppCompatActivity() {
 
                             //  ボリューム情報の場合
                             try {
-                                val jarray:JSONArray = JSONArray(message)
-                                for(i in 0..jarray.length()-1) {
-                                    val jsonObj = jarray.getJSONObject(i)
-                                    val deviceName = jsonObj.getString("DeviceName")
+                                val jsonObj:JSONObject = JSONObject(message)
+                                val deviceName = jsonObj.getString("DeviceName")
 
                                     Log.d("","======"+deviceName+"======")
 
@@ -141,7 +139,7 @@ class MainActivity : AppCompatActivity() {
                                             linearLayout.addView(seek)  // レイアウトファイルにテキストビューを追加します
                                         }
                                     }
-                                }
+
                             }catch (e:java.lang.Exception)
                             {
 
