@@ -2,14 +2,20 @@ package com.example.tcpcontroller
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
+import android.widget.LinearLayout
 import android.widget.SeekBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.PrintWriter
-import java.io.Reader
 import java.net.Socket
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,34 +34,35 @@ class MainActivity : AppCompatActivity() {
             thread.start()
         }
 
-        SendMessageBtn.setOnClickListener {
-            val runnable = Runnable { SendData(SendInputField.text.toString()) }
-            val thread = Thread(runnable)
-            thread.start()
-        }
+//        SendMessageBtn.setOnClickListener {
+//            val runnable = Runnable { SendData(SendInputField.text.toString()) }
+//            val thread = Thread(runnable)
+//            thread.start()
+//        }
 
-        seekBar.setOnSeekBarChangeListener(
-            object : SeekBar.OnSeekBarChangeListener {
-                //ツマミがドラッグされると呼ばれる
-                override fun onProgressChanged(
-                    seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                    val nowValue:Float = progress / 100f
-
-                    //  値の送信
-                    val runnable = Runnable { SendData(nowValue.toString()) }
-                    val thread = Thread(runnable)
-                    thread.start()
-                }
-
-                override fun onStartTrackingTouch(seekBar: SeekBar) {
-                    // ツマミがタッチされた時に呼ばれる
-                }
-
-                override fun onStopTrackingTouch(seekBar: SeekBar) {
-                    // ツマミがリリースされた時に呼ばれる
-                }
-
-            })
+//        seekBar.setOnSeekBarChangeListener(
+//            object : SeekBar.OnSeekBarChangeListener {
+//                //ツマミがドラッグされると呼ばれる
+//                override fun onProgressChanged(
+//                    seekBar: SeekBar, progress: Int, fromUser: Boolean
+//                ) {
+//                    val nowValue: Float = progress / 100f
+//
+//                    //  値の送信
+//                    val runnable = Runnable { SendData(nowValue.toString()) }
+//                    val thread = Thread(runnable)
+//                    thread.start()
+//                }
+//
+//                override fun onStartTrackingTouch(seekBar: SeekBar) {
+//                    // ツマミがタッチされた時に呼ばれる
+//                }
+//
+//                override fun onStopTrackingTouch(seekBar: SeekBar) {
+//                    // ツマミがリリースされた時に呼ばれる
+//                }
+//
+//            })
 
     }
 
@@ -69,10 +76,13 @@ class MainActivity : AppCompatActivity() {
             //  接続されるまでここで止まる
             socket = Socket(ip, port.toInt())
 
+            //  情報取得コマンド送信
+            SendData("GET_VOLUME");
+
             //  接続成功
             //  UIを操作するのでUIスレッドで実行
             runOnUiThread {
-                StateTextView.text = "${socket.remoteSocketAddress.toString()}に接続されました"
+                //StateTextView.text = "${socket.remoteSocketAddress.toString()}に接続されました"
             }
 
             Log.d("", "connected socket")
@@ -85,6 +95,58 @@ class MainActivity : AppCompatActivity() {
                         val message = it.readLine()
                         if (message != null) {
                             Log.d("", message)
+
+                            //  ボリューム情報の場合
+                            try {
+                                val jarray:JSONArray = JSONArray(message)
+                                for(i in 0..jarray.length()-1) {
+                                    val jsonObj = jarray.getJSONObject(i)
+                                    val deviceName = jsonObj.getString("DeviceName")
+
+                                    Log.d("","======"+deviceName+"======")
+
+                                    runOnUiThread{
+                                        val linearLayout = findViewById(R.id.MainLinearLayout) as LinearLayout    // レイアウトファイルにあるレイアウトのidを指定して読み込みます
+                                        linearLayout.gravity = Gravity.CENTER   // 画面中央寄せ
+
+                                        val seek = SeekBar(this)
+                                        val text = TextView(this)
+                                        text.setPadding(80,10,0,0)
+                                        text.text = deviceName
+                                        seek.setPadding(100,10,50,0)
+
+                                        linearLayout.addView(text)  //  テキストを追加
+                                        linearLayout.addView(seek)  // レイアウトファイルにテキストビューを追加します
+                                    }
+
+                                    val volumeChannel = jsonObj.getJSONArray("VolumeChannel")
+                                    for(j in 0..volumeChannel.length()-1)
+                                    {
+                                        val channelObj = volumeChannel.getJSONObject(j)
+                                        val id = channelObj.getString("ID")
+                                        val channelName = channelObj.getString("ChannelName")
+
+                                        Log.d("",id+":"+channelName)
+
+                                        runOnUiThread{
+                                            val linearLayout = findViewById(R.id.MainLinearLayout) as LinearLayout    // レイアウトファイルにあるレイアウトのidを指定して読み込みます
+                                            linearLayout.gravity = Gravity.CENTER   // 画面中央寄せ
+
+                                            val seek = SeekBar(this)
+                                            val text = TextView(this)
+                                            text.setPadding(180,10,0,0)
+                                            text.text = channelName
+                                            seek.setPadding(200,10,50,0)
+                                            linearLayout.addView(text)  //  テキストを追加
+                                            linearLayout.addView(seek)  // レイアウトファイルにテキストビューを追加します
+                                        }
+                                    }
+                                }
+                            }catch (e:java.lang.Exception)
+                            {
+
+                            }
+
                         } else {
                             break
                         }

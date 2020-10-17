@@ -10,23 +10,12 @@
         android:id="@+id/ConnectBtn"
         android:layout_width="381dp"
         android:layout_height="44dp"
-        android:layout_marginBottom="588dp"
         android:text="接続開始"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/SendMessageBtn"
-        android:layout_width="381dp"
-        android:layout_height="44dp"
-        android:layout_marginBottom="448dp"
-        android:text="送信"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.466"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.163" />
 
     <EditText
         android:id="@+id/PortIInputTextField"
@@ -35,6 +24,7 @@
         android:layout_marginTop="52dp"
         android:ems="10"
         android:inputType="phone"
+        android:text="8888"
         android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/ConnectBtn"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,39 +40,15 @@
         android:layout_marginStart="36dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="192.168.0."
+        android:text="192.168.0.29"
         android:textAlignment="viewStart"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/PortIInputTextField"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.464"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.666" />
-
-    <EditText
-        android:id="@+id/SendInputField"
-        android:layout_width="269dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="12dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.517"
-        app:layout_constraintStart_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/StateTextView" />
-
-    <TextView
-        android:id="@+id/StateTextView"
-        android:layout_width="382dp"
-        android:layout_height="25dp"
-        android:text="現在の接続状態"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.551"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ConnectBtn"
-        app:layout_constraintVertical_bias="0.019" />
+        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.018" />
 
     <TextView
         android:id="@+id/textView"
@@ -102,36 +68,27 @@
         android:layout_width="72dp"
         android:layout_height="33dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="56dp"
         android:text="Port"
         android:textAlignment="viewStart"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.08" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="97dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:text="メッセージ"
-        android:textAlignment="viewStart"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/StateTextView" />
-
-    <SeekBar
-        android:id="@+id/seekBar"
-        android:layout_width="381dp"
-        android:layout_height="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="408dp"
+    <LinearLayout
+        android:id="@+id/MainLinearLayout"
+        android:layout_width="399dp"
+        android:layout_height="722dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="4dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SendMessageBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/ConnectBtn"
+        app:layout_constraintVertical_bias="1.0"
+        tools:context=".MainActivity"></LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
