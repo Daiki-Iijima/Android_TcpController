@@ -98,50 +98,107 @@ class MainActivity : AppCompatActivity() {
 
                             //  ボリューム情報の場合
                             try {
-                                val jsonObj:JSONObject = JSONObject(message)
+                                val jsonObj: JSONObject = JSONObject(message)
                                 val deviceName = jsonObj.getString("DeviceName")
+                                val deviceVolume = jsonObj.getDouble("DeviceVolume")
 
-                                    Log.d("","======"+deviceName+"======")
+                                Log.d("", "======" + deviceName + ":" + deviceVolume + "======")
 
-                                    runOnUiThread{
-                                        val linearLayout = findViewById(R.id.MainLinearLayout) as LinearLayout    // レイアウトファイルにあるレイアウトのidを指定して読み込みます
+                                runOnUiThread {
+                                    val linearLayout =
+                                        findViewById(R.id.MainLinearLayout) as LinearLayout    // レイアウトファイルにあるレイアウトのidを指定して読み込みます
+                                    linearLayout.gravity = Gravity.CENTER   // 画面中央寄せ
+
+                                    val seek = SeekBar(this)
+                                    val text = TextView(this)
+
+                                    text.setPadding(80, 10, 0, 0)
+                                    text.text = deviceName
+
+                                    seek.setPadding(100, 10, 50, 0)
+                                    seek.setProgress((deviceVolume * 100).toInt(), true)
+
+                                    seek.setOnSeekBarChangeListener(
+                                        object : SeekBar.OnSeekBarChangeListener {
+                                            //ツマミがドラッグされると呼ばれる
+                                            override fun onProgressChanged(
+                                                seekBar: SeekBar, progress: Int, fromUser: Boolean
+                                            ) {
+                                                val nowValue: Float = progress / 100f
+
+                                                //  値の送信
+                                                val runnable = Runnable { SendData(deviceName+","+nowValue.toString()) }
+                                                val thread = Thread(runnable)
+                                                thread.start()
+                                            }
+
+                                            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                                                // ツマミがタッチされた時に呼ばれる
+                                            }
+
+                                            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                                                // ツマミがリリースされた時に呼ばれる
+                                            }
+
+                                        })
+
+                                    linearLayout.addView(text)  //  テキストを追加
+                                    linearLayout.addView(seek)  // レイアウトファイルにテキストビューを追加します
+                                }
+
+                                val volumeChannel = jsonObj.getJSONArray("VolumeChannel")
+                                for (j in 0..volumeChannel.length() - 1) {
+                                    val channelObj = volumeChannel.getJSONObject(j)
+                                    val id = channelObj.getString("ID")
+                                    val channelName = channelObj.getString("ChannelName")
+                                    val channelVolume = channelObj.getDouble("ChannelVolume")
+
+                                    Log.d("", id + ":" + channelName + ":" + channelVolume)
+
+                                    runOnUiThread {
+                                        val linearLayout =
+                                            findViewById(R.id.MainLinearLayout) as LinearLayout    // レイアウトファイルにあるレイアウトのidを指定して読み込みます
                                         linearLayout.gravity = Gravity.CENTER   // 画面中央寄せ
 
                                         val seek = SeekBar(this)
                                         val text = TextView(this)
-                                        text.setPadding(80,10,0,0)
-                                        text.text = deviceName
-                                        seek.setPadding(100,10,50,0)
+
+                                        text.setPadding(180, 10, 0, 0)
+                                        text.text = channelName
+
+                                        seek.setPadding(200, 10, 50, 0)
+                                        seek.setProgress((channelVolume * 100).toInt(), true)
+                                        seek.setOnSeekBarChangeListener(
+                                            object : SeekBar.OnSeekBarChangeListener {
+                                                //ツマミがドラッグされると呼ばれる
+                                                override fun onProgressChanged(
+                                                    seekBar: SeekBar, progress: Int, fromUser: Boolean
+                                                ) {
+                                                    val nowValue: Float = progress / 100f
+
+                                                    //  値の送信
+                                                    val runnable =
+                                                        Runnable { SendData(channelName+","+nowValue.toString()) }
+                                                    val thread = Thread(runnable)
+                                                    thread.start()
+                                                }
+
+                                                override fun onStartTrackingTouch(seekBar: SeekBar) {
+                                                    // ツマミがタッチされた時に呼ばれる
+                                                }
+
+                                                override fun onStopTrackingTouch(seekBar: SeekBar) {
+                                                    // ツマミがリリースされた時に呼ばれる
+                                                }
+
+                                            })
 
                                         linearLayout.addView(text)  //  テキストを追加
                                         linearLayout.addView(seek)  // レイアウトファイルにテキストビューを追加します
                                     }
+                                }
 
-                                    val volumeChannel = jsonObj.getJSONArray("VolumeChannel")
-                                    for(j in 0..volumeChannel.length()-1)
-                                    {
-                                        val channelObj = volumeChannel.getJSONObject(j)
-                                        val id = channelObj.getString("ID")
-                                        val channelName = channelObj.getString("ChannelName")
-
-                                        Log.d("",id+":"+channelName)
-
-                                        runOnUiThread{
-                                            val linearLayout = findViewById(R.id.MainLinearLayout) as LinearLayout    // レイアウトファイルにあるレイアウトのidを指定して読み込みます
-                                            linearLayout.gravity = Gravity.CENTER   // 画面中央寄せ
-
-                                            val seek = SeekBar(this)
-                                            val text = TextView(this)
-                                            text.setPadding(180,10,0,0)
-                                            text.text = channelName
-                                            seek.setPadding(200,10,50,0)
-                                            linearLayout.addView(text)  //  テキストを追加
-                                            linearLayout.addView(seek)  // レイアウトファイルにテキストビューを追加します
-                                        }
-                                    }
-
-                            }catch (e:java.lang.Exception)
-                            {
+                            } catch (e: java.lang.Exception) {
 
                             }
 
