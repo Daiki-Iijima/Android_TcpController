@@ -8,22 +8,18 @@
 
     <Button
         android:id="@+id/ConnectBtn"
-<<<<<<< HEAD
-        android:layout_width="375dp"
-        android:layout_height="110dp"
-=======
-        android:layout_width="200dp"
-        android:layout_height="44dp"
->>>>>>> MaterialComponents追加
-        android:text="接続開始"
+        android:layout_width="315dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="115dp"
+        android:layout_marginTop="108dp"
+        android:layout_marginEnd="296dp"
+        android:layout_marginBottom="623dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.212"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-<<<<<<< HEAD
-        app:layout_constraintVertical_bias="0.041" />
-=======
-        app:layout_constraintVertical_bias="0.163" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/PortIInputTextField"
