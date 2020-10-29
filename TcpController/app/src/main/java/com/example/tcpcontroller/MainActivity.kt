@@ -1,15 +1,16 @@
 package com.example.tcpcontroller
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.android.synthetic.main.activity_main.*
-import org.json.JSONArray
-import org.json.JSONException
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -24,46 +25,53 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         ConnectBtn.setOnClickListener {
+
+            StartQRRead()
+
+
+        }
+
+    }
+    internal var qrScanIntegrator: IntentIntegrator? = null
+    fun StartQRRead()
+    {
+        qrScanIntegrator = IntentIntegrator(this)
+
+        // 画面の回転をさせない
+        qrScanIntegrator?.setOrientationLocked(false)
+
+        // QR 読み取り後にビープ音がなるのを止める
+        qrScanIntegrator?.setBeepEnabled(false)
+
+        // スキャン開始 (QR アクティビティ生成)
+        qrScanIntegrator?.initiateScan()
+    }
+
+    // 読み取り後に呼ばれるメソッド
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        // 結果の取得
+        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+
+        if (result != null) {
+            // result.contents で取得した値を参照できる
+            Toast.makeText(this, result.contents, Toast.LENGTH_LONG).show()
+            Log.d("読み込み結果",result.contents)
+
+            val getValue = result.contents
+            val getValueSplit = getValue.split(',')
+            
             val runnable = Runnable {
-                StartClient(
-                    IPIInputTextField.text.toString(),
-                    PortIInputTextField.text.toString()
-                )
+                StartClient(getValueSplit[0],getValueSplit[1])
+
             }
             val thread = Thread(runnable)
             thread.start()
+
         }
 
-//        SendMessageBtn.setOnClickListener {
-//            val runnable = Runnable { SendData(SendInputField.text.toString()) }
-//            val thread = Thread(runnable)
-//            thread.start()
-//        }
-
-//        seekBar.setOnSeekBarChangeListener(
-//            object : SeekBar.OnSeekBarChangeListener {
-//                //ツマミがドラッグされると呼ばれる
-//                override fun onProgressChanged(
-//                    seekBar: SeekBar, progress: Int, fromUser: Boolean
-//                ) {
-//                    val nowValue: Float = progress / 100f
-//
-//                    //  値の送信
-//                    val runnable = Runnable { SendData(nowValue.toString()) }
-//                    val thread = Thread(runnable)
-//                    thread.start()
-//                }
-//
-//                override fun onStartTrackingTouch(seekBar: SeekBar) {
-//                    // ツマミがタッチされた時に呼ばれる
-//                }
-//
-//                override fun onStopTrackingTouch(seekBar: SeekBar) {
-//                    // ツマミがリリースされた時に呼ばれる
-//                }
-//
-//            })
-
+        else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     private lateinit var socket: Socket
@@ -127,7 +135,8 @@ class MainActivity : AppCompatActivity() {
                                                 val nowValue: Float = progress / 100f
 
                                                 //  値の送信
-                                                val runnable = Runnable { SendData(deviceName+","+nowValue.toString()) }
+                                                val runnable =
+                                                    Runnable { SendData(deviceName + "," + nowValue.toString()) }
                                                 val thread = Thread(runnable)
                                                 thread.start()
                                             }
@@ -172,13 +181,15 @@ class MainActivity : AppCompatActivity() {
                                             object : SeekBar.OnSeekBarChangeListener {
                                                 //ツマミがドラッグされると呼ばれる
                                                 override fun onProgressChanged(
-                                                    seekBar: SeekBar, progress: Int, fromUser: Boolean
+                                                    seekBar: SeekBar,
+                                                    progress: Int,
+                                                    fromUser: Boolean
                                                 ) {
                                                     val nowValue: Float = progress / 100f
 
                                                     //  値の送信
                                                     val runnable =
-                                                        Runnable { SendData(channelName+","+nowValue.toString()) }
+                                                        Runnable { SendData(channelName + "," + nowValue.toString()) }
                                                     val thread = Thread(runnable)
                                                     thread.start()
                                                 }
