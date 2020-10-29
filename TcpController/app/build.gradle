@@ -1,7 +1,9 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-
+repositories {
+    jcenter()
+}
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -34,6 +36,12 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+<<<<<<< HEAD
 
 
+=======
+    implementation 'com.journeyapps:zxing-android-embedded:4.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'com.google.zxing:core:3.3.0'
+>>>>>>> origin/main
 }

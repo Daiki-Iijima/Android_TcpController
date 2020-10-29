@@ -8,13 +8,19 @@
 
     <Button
         android:id="@+id/ConnectBtn"
+<<<<<<< HEAD
         android:layout_width="200dp"
         android:layout_height="44dp"
+=======
+        android:layout_width="375dp"
+        android:layout_height="110dp"
+>>>>>>> origin/main
         android:text="接続開始"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+<<<<<<< HEAD
         app:layout_constraintVertical_bias="0.163" />
 
     <EditText
@@ -76,12 +82,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.08" />
+=======
+        app:layout_constraintVertical_bias="0.041" />
+>>>>>>> origin/main
 
     <LinearLayout
 
         android:id="@+id/MainLinearLayout"
-        android:layout_width="399dp"
-        android:layout_height="722dp"
+        android:layout_width="396dp"
+        android:layout_height="563dp"
         android:layout_marginTop="1dp"
         android:layout_marginBottom="4dp"
         android:orientation="vertical"
