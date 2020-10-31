@@ -1,16 +1,16 @@
 package com.example.tcpcontroller
 
+import android.R.id
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
-import android.widget.LinearLayout
-import android.widget.SeekBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.google.zxing.integration.android.IntentIntegrator
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.main_page.*
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -18,20 +18,32 @@ import java.io.PrintWriter
 import java.net.Socket
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),
+                     MainPageFragment.MainPageFragmentListener,
+                     SettingFragment.SettingFragmentListener
+{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        ConnectBtn.setOnClickListener {
+        val fragment = MainPageFragment()
 
-            StartQRRead()
+        replaceFragment(fragment)
+
+        //トランザクションの後にexecutePendingTransactionを呼び出す必要があります。
+//        fragmentManager.executePendingTransactions()
+//
+//        val getfragment: Fragment? = fragmentManager.findFragmentByTag("MainPage")
 
 
-        }
-
+//        ConnectBtn.setOnClickListener {
+//
+//
+//        }
+//
     }
+
     internal var qrScanIntegrator: IntentIntegrator? = null
     fun StartQRRead()
     {
@@ -55,13 +67,13 @@ class MainActivity : AppCompatActivity() {
         if (result != null) {
             // result.contents で取得した値を参照できる
             Toast.makeText(this, result.contents, Toast.LENGTH_LONG).show()
-            Log.d("読み込み結果",result.contents)
+            Log.d("読み込み結果", result.contents)
 
             val getValue = result.contents
             val getValueSplit = getValue.split(',')
             
             val runnable = Runnable {
-                StartClient(getValueSplit[0],getValueSplit[1])
+                StartClient(getValueSplit[0], getValueSplit[1])
 
             }
             val thread = Thread(runnable)
@@ -243,7 +255,34 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun ClickSend() {
 
+    override fun onClickConnect() {
+        Log.d("MainPageFragment","QRコード読み込みモード")
+        StartQRRead()
     }
+
+    override fun onClickSetting() {
+        Log.d("MainPageFragment","設定モード")
+
+        val fragment = SettingFragment()
+
+        replaceFragment(fragment)
+    }
+
+    override fun onClickBackBtn() {
+        Log.d("SettingPageFragement","戻るクリック")
+
+        val fragment = MainPageFragment()
+
+        replaceFragment(fragment)
+    }
+
+    fun replaceFragment(fragment: Fragment) {
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.container, fragment)
+        fragmentTransaction.commit()
+    }
+
+
 }

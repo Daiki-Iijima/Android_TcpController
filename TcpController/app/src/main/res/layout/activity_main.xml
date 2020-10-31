@@ -6,87 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/ConnectBtn"
-        android:layout_width="315dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="115dp"
-        android:layout_marginTop="108dp"
-        android:layout_marginEnd="296dp"
-        android:layout_marginBottom="623dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.212"
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <EditText
-        android:id="@+id/PortIInputTextField"
-        android:layout_width="259dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="52dp"
-        android:ems="10"
-        android:inputType="phone"
-        android:text="8888"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/ConnectBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.765"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.444" />
-
-    <EditText
-        android:id="@+id/IPIInputTextField"
-        android:layout_width="259dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="36dp"
-        android:ems="10"
-        android:inputType="phone"
-        android:text="192.168.0.29"
-        android:textAlignment="viewStart"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.428"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.018" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="72dp"
-        android:layout_height="33dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:text="IP"
-        android:textAlignment="viewStart"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="72dp"
-        android:layout_height="33dp"
-        android:layout_marginStart="16dp"
-        android:text="Port"
-        android:textAlignment="viewStart"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.08" />
->>>>>>> MaterialComponents追加
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <LinearLayout
 
         android:id="@+id/MainLinearLayout"
-        android:layout_width="396dp"
-        android:layout_height="563dp"
+        android:layout_width="397dp"
+        android:layout_height="467dp"
         android:layout_marginTop="1dp"
         android:layout_marginBottom="4dp"
         android:orientation="vertical"
@@ -97,11 +29,8 @@
         app:layout_constraintVertical_bias="1.0"
         tools:context=".MainActivity">
 
-        <!--
-        <com.google.android.material.slider.Slider
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-        style="@style/Widget.MaterialComponents.Slider"/>
-        -->
+
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
