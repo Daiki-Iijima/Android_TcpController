@@ -36,12 +36,6 @@ class MainActivity : AppCompatActivity(),
 //
 //        val getfragment: Fragment? = fragmentManager.findFragmentByTag("MainPage")
 
-
-//        ConnectBtn.setOnClickListener {
-//
-//
-//        }
-//
     }
 
     internal var qrScanIntegrator: IntentIntegrator? = null
@@ -277,6 +271,7 @@ class MainActivity : AppCompatActivity(),
         replaceFragment(fragment)
     }
 
+    //  Fragmentの書き換えを行う
     fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
