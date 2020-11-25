@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.zxing.integration.android.IntentIntegrator
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.main_page.*
 import org.json.JSONObject
 import java.io.BufferedReader
@@ -27,8 +28,9 @@ class MainActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val fragment = MainPageFragment()
+        ChangeToolBarTitle("ホームメニュー")
 
+        val fragment = MainPageFragment()
         replaceFragment(fragment)
 
         //トランザクションの後にexecutePendingTransactionを呼び出す必要があります。
@@ -36,6 +38,17 @@ class MainActivity : AppCompatActivity(),
 //
 //        val getfragment: Fragment? = fragmentManager.findFragmentByTag("MainPage")
 
+        toolbar.inflateMenu(R.menu.menu_item)
+        toolbar.setOnMenuItemClickListener {
+            if(it.itemId == R.id.star){
+            }
+            true
+        }
+    }
+
+    fun ChangeToolBarTitle(setStr:String)
+    {
+        toolbar.title=setStr
     }
 
     internal var qrScanIntegrator: IntentIntegrator? = null
@@ -257,7 +270,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun onClickSetting() {
         Log.d("MainPageFragment","設定モード")
-
+        ChangeToolBarTitle("設定画面")
         val fragment = SettingFragment()
 
         replaceFragment(fragment)
@@ -265,7 +278,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun onClickBackBtn() {
         Log.d("SettingPageFragement","戻るクリック")
-
+        ChangeToolBarTitle("ホームメニュー")
         val fragment = MainPageFragment()
 
         replaceFragment(fragment)
